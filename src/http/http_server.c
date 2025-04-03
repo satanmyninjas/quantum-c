@@ -65,6 +65,7 @@ int main() {
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket == -1) {
         perror("socket");
+	printf("[!] Error: Could not establish TCP connection. Stopping HTTP server. Exiting program cleanly...");
         exit(EXIT_FAILURE);
     }
 
@@ -76,6 +77,7 @@ int main() {
     if (bind(server_socket, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
         perror("bind");
         close(server_socket);
+	printf("[!] Error: Could not establish binding to socket. Stopping HTTP server. Exiting program cleanly...");
         exit(EXIT_FAILURE);
     }
 
@@ -83,10 +85,11 @@ int main() {
     if (listen(server_socket, 10) < 0) {
         perror("listen");
         close(server_socket);
+	printf("[!] Error: Could not establish server listener. Stopping HTTP server. Exiting program cleanly...");
         exit(EXIT_FAILURE);
     }
 
-    printf("HTTP Server listening on port %d...\n", PORT);
+    printf("[*] HTTP server listening on port %d...\n", PORT);
 
     while (1) {
         // Accept client connections
